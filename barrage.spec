@@ -1,0 +1,81 @@
+%define	name	barrage
+%define	version	1.0.2
+%define	release	%mkrel 2
+%define	Summary	A rather violent action game
+
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
+URL:		http://lgames.sourceforge.net/index.php?project=Barrage
+Source0:	%{name}-%{version}.tar.bz2
+Source11:	%{name}-16x16.png
+Source12:	%{name}-32x32.png
+Source13:	%{name}-48x48.png
+License:	GPL
+Group:		Games/Arcade
+Summary:	%{Summary}
+BuildRequires:	SDL_mixer-devel X11-devel nas-devel smpeg-devel oggvorbis-devel desktop-file-utils
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+
+%description
+Barrage is a rather violent action game with the objective to kill
+and destroy as many targets as possible within 3 minutes. The player
+controls a gun that may either fire small or large grenades at
+soldiers, jeeps and tanks. It is a very simple gameplay though it is
+not that easy to get high scores.
+
+%prep
+%setup -q
+
+%build
+%configure2_5x	--bindir=%{_gamesbindir}
+%make
+
+%install
+rm -rf %{buildroot}
+%makeinstall_std
+
+install -d %{buildroot}%{_menudir}
+cat <<EOF > %{buildroot}%{_menudir}/%{name}
+?package(%{name}):command="%{_gamesbindir}/%{name}" \
+		icon=%{name}.png \
+		needs="x11" \
+		section="More Applications/Games/Arcade" \
+		title="Barrage"\
+		longtitle="%{Summary}" \
+		xdg="true"
+EOF
+
+install -m644 %{SOURCE11} -D %{buildroot}%{_miconsdir}/%{name}.png
+install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/%{name}.png
+install -m644 %{SOURCE13} -D %{buildroot}%{_liconsdir}/%{name}.png
+
+desktop-file-install	--vendor="" \
+			--remove-category="Application" \
+			--remove-category="X-Red-Hat-Base" \
+			--add-category="X-MandrivaLinux-MoreApplications-Games-Arcade" \
+			--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
+
+
+%post
+%update_menus
+
+%postun
+%clean_menus
+
+%clean
+rm -rf %{buildroot}
+
+%files
+%defattr(644,root,root,755)
+%doc AUTHORS BUGS ChangeLog NEWS README TODO
+%{_gamesdatadir}/%{name}
+%{_iconsdir}/%{name}.png
+%{_liconsdir}/%{name}.png
+%{_miconsdir}/%{name}.png
+%{_menudir}/%{name}
+%{_datadir}/applications/%{name}.desktop
+%defattr(755,root,root,755)
+%{_gamesbindir}/*
+
+
