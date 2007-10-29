@@ -1,20 +1,21 @@
 %define	name	barrage
 %define	version	1.0.2
-%define	release	%mkrel 2
+%define	release	%mkrel 3
 %define	Summary	A rather violent action game
 
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 URL:		http://lgames.sourceforge.net/index.php?project=Barrage
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	http://nchc.dl.sourceforge.net/sourceforge/lgames/%{name}-%{version}.tar.bz2
+Patch0:		barrage-1.0.2-desktop-entry-fix.patch
 Source11:	%{name}-16x16.png
 Source12:	%{name}-32x32.png
 Source13:	%{name}-48x48.png
 License:	GPL
 Group:		Games/Arcade
 Summary:	%{Summary}
-BuildRequires:	SDL_mixer-devel X11-devel nas-devel smpeg-devel oggvorbis-devel desktop-file-utils
+BuildRequires:	SDL_mixer-devel X11-devel nas-devel smpeg-devel oggvorbis-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -26,6 +27,7 @@ not that easy to get high scores.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 %configure2_5x	--bindir=%{_gamesbindir}
@@ -35,27 +37,9 @@ not that easy to get high scores.
 rm -rf %{buildroot}
 %makeinstall_std
 
-install -d %{buildroot}%{_menudir}
-cat <<EOF > %{buildroot}%{_menudir}/%{name}
-?package(%{name}):command="%{_gamesbindir}/%{name}" \
-		icon=%{name}.png \
-		needs="x11" \
-		section="More Applications/Games/Arcade" \
-		title="Barrage"\
-		longtitle="%{Summary}" \
-		xdg="true"
-EOF
-
 install -m644 %{SOURCE11} -D %{buildroot}%{_miconsdir}/%{name}.png
 install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/%{name}.png
 install -m644 %{SOURCE13} -D %{buildroot}%{_liconsdir}/%{name}.png
-
-desktop-file-install	--vendor="" \
-			--remove-category="Application" \
-			--remove-category="X-Red-Hat-Base" \
-			--add-category="X-MandrivaLinux-MoreApplications-Games-Arcade" \
-			--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
-
 
 %post
 %update_menus
@@ -73,9 +57,6 @@ rm -rf %{buildroot}
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
-%{_menudir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %defattr(755,root,root,755)
 %{_gamesbindir}/*
-
-
