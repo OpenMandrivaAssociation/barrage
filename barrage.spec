@@ -16,6 +16,7 @@ License:	GPL
 Group:		Games/Arcade
 Summary:	%{Summary}
 BuildRequires:	SDL_mixer-devel X11-devel nas-devel smpeg-devel oggvorbis-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Barrage is a rather violent action game with the objective to kill
