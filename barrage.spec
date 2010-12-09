@@ -1,6 +1,6 @@
 %define	name	barrage
 %define	version	1.0.2
-%define	release	%mkrel 6
+%define	release	%mkrel 7
 %define	Summary	A rather violent action game
 
 Name:		%{name}
