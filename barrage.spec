@@ -15,7 +15,8 @@ Source13:	%{name}-48x48.png
 License:	GPL
 Group:		Games/Arcade
 Summary:	%{Summary}
-BuildRequires:	SDL_mixer-devel X11-devel nas-devel smpeg-devel oggvorbis-devel
+BuildRequires:	SDL_mixer-devel
+Buildrequires:	SDL-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
