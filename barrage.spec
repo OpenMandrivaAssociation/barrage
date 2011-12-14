@@ -1,20 +1,12 @@
-%define	name	barrage
-%define	version	1.0.2
-%define	release	%mkrel 8
-%define	Summary	A rather violent action game
-
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-URL:		http://lgames.sourceforge.net/index.php?project=Barrage
-Source0:	http://nchc.dl.sourceforge.net/sourceforge/lgames/%{name}-%{version}.tar.bz2
-Patch0:		barrage-1.0.2-desktop-entry-fix.patch
-Source11:	%{name}-16x16.png
-Source12:	%{name}-32x32.png
-Source13:	%{name}-48x48.png
-License:	GPL
+Name:		barrage
+Version:	1.0.4
+Release:	%mkrel 1
+License:	GPLv2
 Group:		Games/Arcade
-Summary:	%{Summary}
+Summary:	A rather violent action game
+URL:		http://lgames.sourceforge.net/index.php?project=Barrage
+Source0:	http://nchc.dl.sourceforge.net/sourceforge/lgames/%{name}-%{version}.tar.gz
+Patch0:		barrage-1.0.4-desktop-entry-fix.patch
 BuildRequires:	SDL_mixer-devel
 Buildrequires:	SDL-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -28,40 +20,23 @@ not that easy to get high scores.
 
 %prep
 %setup -q
-%patch0 -p0
+%patch0 -p1
 
 %build
 %configure2_5x	--bindir=%{_gamesbindir}
 %make
 
 %install
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
 %makeinstall_std
 
-install -m644 %{SOURCE11} -D %{buildroot}%{_miconsdir}/%{name}.png
-install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/%{name}.png
-install -m644 %{SOURCE13} -D %{buildroot}%{_liconsdir}/%{name}.png
-
-%if %mdkversion < 200900
-%post
-%update_menus
-%endif
-
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%endif
-
 %clean
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog NEWS README TODO
 %{_gamesdatadir}/%{name}
-%{_iconsdir}/%{name}.png
-%{_liconsdir}/%{name}.png
-%{_miconsdir}/%{name}.png
+%{_iconsdir}/hicolor/*/apps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
-%defattr(755,root,root,755)
-%{_gamesbindir}/*
+%attr(755,root,root) %{_gamesbindir}/*
