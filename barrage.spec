@@ -1,6 +1,6 @@
 Name:		barrage
 Version:	1.0.4
-Release:	%mkrel 1
+Release:	2
 License:	GPLv2
 Group:		Games/Arcade
 Summary:	A rather violent action game
