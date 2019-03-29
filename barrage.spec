@@ -1,14 +1,14 @@
 Name:		barrage
 Version:	1.0.4
-Release:	2
+Release:	3
 License:	GPLv2
 Group:		Games/Arcade
 Summary:	A rather violent action game
 URL:		http://lgames.sourceforge.net/index.php?project=Barrage
 Source0:	http://nchc.dl.sourceforge.net/sourceforge/lgames/%{name}-%{version}.tar.gz
 Patch0:		barrage-1.0.4-desktop-entry-fix.patch
-BuildRequires:	SDL_mixer-devel
-Buildrequires:	SDL-devel
+BuildRequires:	pkgconfig(SDL_mixer)
+Buildrequires:	pkgconfig(sdl)
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -24,11 +24,11 @@ not that easy to get high scores.
 
 %build
 %configure2_5x	--bindir=%{_gamesbindir}
-%make
+%make_build
 
 %install
 %__rm -rf %{buildroot}
-%makeinstall_std
+%make_install
 
 %clean
 %__rm -rf %{buildroot}
@@ -76,7 +76,7 @@ not that easy to get high scores.
 - fix bug#27120, icon not shown in menu
 
 
-* Thu Dec 14 2006 Per Øyvind Karlsen <pkarlsen@mandriva.com> 1.0.2-2mdv2007.0
+* Thu Dec 14 2006 Per Ã˜yvind Karlsen <pkarlsen@mandriva.com> 1.0.2-2mdv2007.0
 + Revision: 96900
 - fix buildrequires
 - xdg menu
@@ -84,10 +84,10 @@ not that easy to get high scores.
   cleanups
 - Import barrage
 
-* Wed Feb 16 2005 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 1.0.2-1mdk
+* Wed Feb 16 2005 Per Ã˜yvind Karlsen <peroyvind@linux-mandrake.com> 1.0.2-1mdk
 - 1.0.2
 
-* Sat May 22 2004 Per �yvind Karlsen <peroyvind@linux-mandrake.com> 1.0.1-2mdk
+* Sat May 22 2004 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 1.0.1-2mdk
 - change summary macro to avoid possible conflicts if we were to build debug package
 - fix buildrequires
 - don't bzip2 icons in src.rpm
