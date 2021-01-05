@@ -1,15 +1,13 @@
 Name:		barrage
-Version:	1.0.4
-Release:	3
+Version:	1.0.5
+Release:	1
 License:	GPLv2
 Group:		Games/Arcade
 Summary:	A rather violent action game
 URL:		http://lgames.sourceforge.net/index.php?project=Barrage
 Source0:	http://nchc.dl.sourceforge.net/sourceforge/lgames/%{name}-%{version}.tar.gz
-Patch0:		barrage-1.0.4-desktop-entry-fix.patch
 BuildRequires:	pkgconfig(SDL_mixer)
 Buildrequires:	pkgconfig(sdl)
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Barrage is a rather violent action game with the objective to kill
@@ -20,27 +18,29 @@ not that easy to get high scores.
 
 %prep
 %setup -q
-%patch0 -p1
+%autopatch -p1
 
 %build
-%configure2_5x	--bindir=%{_gamesbindir}
+%configure --localstatedir=%{_localstatedir}/games \
+                --bindir=%{_gamesbindir}
 %make_build
 
 %install
-%__rm -rf %{buildroot}
 %make_install
 
-%clean
-%__rm -rf %{buildroot}
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
+mv %{buildroot}%{_datadir}/icons/barrage48.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+
+sed -i 's/Icon=.*/Icon=barrage/' %buildroot/%{_datadir}/applications/%{name}.desktop
+
 
 %files
-%defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog NEWS README TODO
-%{_gamesdatadir}/%{name}
+%{_datadir}/%{name}
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
-%attr(755,root,root) %{_gamesbindir}/*
-
+%{_gamesbindir}/*
+%config(noreplace) %attr(664, games, games) %{_localstatedir}/games/%{name}.hscr
 
 %changelog
 * Wed Dec 14 2011 Andrey Bondrov <abondrov@mandriva.org> 1.0.4-1
