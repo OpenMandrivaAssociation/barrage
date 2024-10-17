@@ -4,7 +4,7 @@ Release:	1
 License:	GPLv2
 Group:		Games/Arcade
 Summary:	A rather violent action game
-URL:		http://lgames.sourceforge.net/index.php?project=Barrage
+URL:		https://lgames.sourceforge.net/index.php?project=Barrage
 Source0:	http://nchc.dl.sourceforge.net/sourceforge/lgames/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(SDL_mixer)
 Buildrequires:	pkgconfig(sdl)
